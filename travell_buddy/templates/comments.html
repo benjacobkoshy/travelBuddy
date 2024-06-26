@@ -1,0 +1,108 @@
+{% load static %}
+{% include 'loading.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .container {
+            display: flex;
+        }
+        .card-wrapper {
+            width: 30%; /* Adjust as needed */
+            position: fixed;
+            top: 20vh;
+            left: 3vh;
+            padding: 0 15px; /* Add padding to match card padding */
+        }
+        .card {
+            border-radius: 10px;
+            padding: 20px;
+        }
+        textarea {
+            height: 200px;
+        }
+        .btn {
+            display: block;
+            margin: 0 auto;
+            margin-top: 10px;
+        }
+
+        .comment-wrapper {
+            width: 80%; /* Adjust as needed */
+            margin-left: 40%; /* Match card-wrapper width */
+            margin-top: 5vh; /* Adjust as needed */
+            overflow-y: auto; /* Add scrollbar */
+            height: 70vh; /* Limit height and add scrollbar */
+        }
+       
+    </style>
+</head>
+<body>
+    {% include 'top.html' %}
+    {% include 'top-options.html' %}
+    <form method="POST" action="{% url 'comment' blog.id %}">
+        {% csrf_token %}
+        <div class="container">
+            <div class="card-wrapper">
+                <div class="card">
+                    <h5 class="custom-card-title">Leave a comment...</h5>
+                    <div class="card-body">
+                        <div class="form-floating">
+                            <textarea type="text" class="form-control" placeholder="Leave a comment here" id="floatingTextarea" name="comment_text"></textarea>
+                            <label for="floatingTextarea">Comments</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Post</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    
+    {% if not comments %}
+    <div class="comment-wrapper" style="margin-bottom: 100px; display: flex; justify-content: center; align-items: center;">
+        <p>No comments yet. <i class="fa-solid fa-face-sad-tear"></i></p>
+    </div>
+    {% else %}
+    <div class="comment-wrapper" style="margin-bottom: 100px;">
+        {% for comment in comments reversed %}
+        <div class="card w-75" style="margin-top: 30px;">
+            <div class="card-body">
+                <a href="{% url 'owner-account' comment.user.id %}" style="text-decoration: none;" class="card-title">
+                    <strong>{{ comment.user }}</strong> &nbsp;&nbsp;&nbsp;- <small>{{ comment.date_added }}</small>
+                </a>
+                <hr>
+                <p class="card-text">{{ comment.text }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+       
+    </div>
+
+    {% include 'footer.html' %}
+</body>
+</html>
+
+
+
+
+
+
+<!-- {% if not comments %}
+
+   <p>No comments yet<a href="#">Add one</a></p>
+
+{% else %}
+   
+    {% for comment in comments %}
+       {{ comment.user }} - {{ comment.date_added }} - {{ comment.text }}
+    {% endfor %}
+   
+{% endif %} -->

@@ -1,0 +1,99 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/more-details2.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
+    <title>Document</title>
+</head>
+<body>
+
+  {% include 'top-nav.html' %}
+  
+    <div class="main" style="margin-top: 50px;">
+    <div class="container">
+        <h2>Who are you?</h2>
+
+        {% if user %}
+
+        <form action="{% url 'more-details' user_id=user.id %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %} 
+            <div class="name">
+                {% if user.customer_profile %}
+                    <input type="text" value="{{ user.customer_profile.name }}" name="name" disabled>
+                    
+                {% endif %}
+                <input type="text" value="{{ user.username }}" name="username" disabled>
+            </div>
+            <div class="email">
+                <input type="text" value="{{ user.email }}" name="email" disabled>
+            </div>
+            <!-- Add other fields as needed -->
+            
+            
+            <div class="images">
+                <input type="file" id="imageInput" onchange="displayImages(event)" name="image" accept="image/*" required>
+                <label class="image-label" for="imageInput"><i class="fas fa-image"></i></label>
+                <div id="image-container"></div>
+            </div>
+            
+            <div class="address">
+               <input placeholder="Address" name="address">
+            </div>
+            
+            <div class="place">
+                <input type="text" name="location" placeholder="Location">
+                <input type="number" name="pin" maxlength="6" minlength="6" placeholder="Pin Code">
+            </div>
+            <div class="dob">
+                <input type="date" name="dob" id="dobInput" placeholder="Dob" onchange="checkAge()">
+            </div>
+            <div class="btn"><button type="submit" name="save">Save</button></div>
+            
+        </form>
+
+        {% endif %}
+        </div>
+    </div>
+
+    <script>
+        function displayImages(event) {
+            const imageContainer = document.getElementById('image-container');
+            imageContainer.innerHTML = ''; // Clear previous images
+
+            const files = event.target.files;
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                if (!file.type.startsWith('image/')) continue; // Skip non-image files
+
+                const img = document.createElement('img');
+                img.classList.add('thumbnail');
+                img.file = file;
+
+                imageContainer.appendChild(img);
+
+                const reader = new FileReader();
+                reader.onload = (function(aImg) { return function(e) { aImg.src = e.target.result; }; })(img);
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function checkAge() {
+            var dobInput = document.getElementById('dobInput');
+            var selectedDate = new Date(dobInput.value);
+            var currentDate = new Date();
+            var age = Math.floor((currentDate - selectedDate) / (365.25 * 24 * 60 * 60 * 1000));
+
+            if (age < 7) {
+                alert('Age restricted! You must be at least 7 years old.');
+                // You can add additional actions here if needed, like clearing the input field
+                dobInput.value = '';
+            }
+        }
+    </script>
+
+</body>
+</html>

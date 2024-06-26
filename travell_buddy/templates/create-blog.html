@@ -1,0 +1,179 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
+    <link rel="stylesheet" href="{% static 'css/create-blog1.css' %}">
+    <title>Document</title>
+</head>
+<body>
+    
+    {% block header %}
+      {% include 'top.html' %}
+     
+    {% endblock header %}
+
+      {% if user %}
+      <form method="POST" action="{% url 'create_blog' user.id %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="main-container" style="margin-top: 100px;">
+    
+        <div class="left-column">
+    
+          <h2>Create Your Blog</h2>
+    
+          <div class="blog-content">
+    
+    
+          <!-- <label for="blogHeader">Blog Header:</label> -->
+    
+          <div class="heading">
+            <input type="text" name="header" id="blogHeader" placeholder="Enter blog header" required>
+          </div>
+    
+          <!-- <label for="blogTitle">Blog Title:</label> -->
+          <div class="title-date">
+
+            <input type="text" name="title" id="blogTitle" class="title" placeholder="Enter blog title" required>
+            <input type="date" name="date" id="datepicker" class="date" onchange="updateDate()" required>
+            
+          </div>
+     
+          <div class="location">
+            <input type="text" name="location" placeholder="Add Location" class="loc" required>
+          </div>
+    
+          <div class="content">
+          <textarea id="blogContent" name="content" rows="6" placeholder="Enter your blog content" required></textarea>
+          </div>
+
+          
+          <div class="images">
+            <input type="file" id="imageInput" onchange="displayImages(event)" name="image" accept="image/*" required>
+            <label class="image-label" for="imageInput"><i class="fas fa-image"></i></label>
+            <div id="image-container"></div>
+        </div>
+          
+          
+    
+        </div>
+    </div>
+    
+    
+    
+        <div class="right-column">
+          <h2>Decribe yourself</h2>
+         
+          <img src="{{ user.customer_profile.image.url }} " alt="{{ user.username }}" style="width: 100px; height: auto; border-radius: 5px;">
+          <!-- <label for="authorName">Author Name:</label> -->
+          <div class="author">
+                <input type="text" name="author" id="authorName" value="{{ user.customer_profile.name }}" placeholder="Enter your name" required>
+          </div>
+          <!-- <label for="authorBio">Author Bio:</label> -->
+          <div class="personal-details">
+                <textarea id="authorBio" name="yourself" rows="4" placeholder="Tell us about yourself" required></textarea>
+          </div>
+        </div>
+    
+       
+        <div id="post">
+          <button type="submit" name="publish">Publish</button>
+        </div> 
+    
+        </div>
+      </form>
+
+      {% endif %}
+
+
+
+
+
+
+    <script>
+        function updateDate() {
+  var selectedDate = document.getElementById('datepicker').value;
+  document.getElementById('selectedDateDisplay').innerText = `Selected Date: ${selectedDate}`;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function displayImages(event) {
+            const imageContainer = document.getElementById('image-container');
+            imageContainer.innerHTML = ''; // Clear previous images
+
+            const files = event.target.files;
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                if (!file.type.startsWith('image/')) continue; // Skip non-image files
+
+                const img = document.createElement('img');
+                img.classList.add('thumbnail');
+                img.file = file;
+
+                imageContainer.appendChild(img);
+
+                const reader = new FileReader();
+                reader.onload = (function(aImg) { return function(e) { aImg.src = e.target.result; }; })(img);
+                reader.readAsDataURL(file);
+            }
+        }
+
+  function displayVideos(event) {
+    const videoContainer = document.getElementById('video-container');
+    const files = event.target.files;
+
+    for (const file of files) {
+      const videoElement = document.createElement('video');
+      videoElement.src = URL.createObjectURL(file);
+      videoElement.classList.add('uploaded-video');
+      videoElement.controls = true;
+
+      // Create a fullscreen button
+      const fullscreenButton = document.createElement('button');
+      fullscreenButton.innerHTML = '<i class="fas fa-expand"></i>';
+      fullscreenButton.classList.add('fullscreen-button');
+
+      // Add click event to toggle fullscreen
+      fullscreenButton.addEventListener('click', () => {
+        if (videoElement.requestFullscreen) {
+          videoElement.requestFullscreen();
+        } else if (videoElement.mozRequestFullScreen) {
+          videoElement.mozRequestFullScreen();
+        } else if (videoElement.webkitRequestFullscreen) {
+          videoElement.webkitRequestFullscreen();
+        } else if (videoElement.msRequestFullscreen) {
+          videoElement.msRequestFullscreen();
+        }
+      });
+
+      // Append the video and fullscreen button to the container
+      videoContainer.appendChild(videoElement);
+      videoElement.appendChild(fullscreenButton);
+    }
+  }
+  
+    </script>
+ 
+
+
+
+
+</body>
+</html>

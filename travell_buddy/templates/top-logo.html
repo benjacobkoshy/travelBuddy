@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/main2.css' %}">
+</head>
+<body>
+
+         
+        <header>
+             
+            <div id="logo" onclick="rotateLogo()">
+                <img src="{% static 'images/logo/flight.png' %}" alt="Logo" style="width: 90px; height: auto;">
+            </div>
+            <div class="logo">
+                <img src="{% static 'images/logo/travell buddy-logos_transparent.png' %}">
+            </div>
+    
+        </header>
+    
+    
+    </body>
+    </html>
+
+
+    <script>
+
+
+
+               function rotateLogo() {
+                    var logo = document.getElementById("logo");
+                    logo.classList.toggle("rotate");
+                    setTimeout(function() {
+                    logo.classList.remove("rotate");
+                    }, 3000); // Remove the class after 3 seconds
+                }
+
+
+       
+    </script>
+</body>
+</html>

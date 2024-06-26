@@ -1,0 +1,49 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+</head>
+
+
+<body>
+     
+    <header style="position: fixed;">
+        <div class="logo">
+            <a href="{% url 'home' %}" style="text-decoration: none; background: transparent;"><img src="{% static 'images/logo/travell buddy-logos_transparent.png' %}"></a>
+      </div>
+
+      <div class="search">
+        <form method="get" action="{% url 'search_blog' %}">
+            <input type="search" name="q" placeholder="Search...">
+            <button type="submit" style="display: none;">Search</button>
+        </form> 
+      </div>
+
+      
+      {% if user.is_authenticated %}
+      <div class="account">
+          <b>{{ user.customer_profile.name }}</b>
+          <a href="{% url 'owner-account' user.id %}">
+           
+                <img src="{{ user.customer_profile.image.url }}" alt="{{ user.customer_profile.name }}" style="width: 80px; height: 80px; border-radius: 50%;">
+         
+          </a>
+      </div>
+      {% else %}
+      <div id="login-info">
+          <a href="{% url 'account' %}" style="font-weight:bold; text-decoration: none; box-shadow: 2px; background-color: #3498db; color: #fff; padding: 10px 20px; border-radius: 5px; transition: background-color 0.3s;">
+              Login
+          </a>
+      </div>
+      {% endif %}
+      
+    </header>
+
+   
+</body>
+</html>

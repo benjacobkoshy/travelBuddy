@@ -1,0 +1,200 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/left-nav.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+  
+        .sub-nav {
+            position: fixed;
+            top: 450px; 
+            left: 370px; 
+            z-index: 999; 
+            background-color: #fff; 
+            border-radius: 10px; 
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+            padding: 20px; 
+            display: none; 
+        }
+        .sub-nav.show {
+            display: block; /* Show the sub-navigation when the 'show' class is applied */
+        }
+        .sub-nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .sub-nav li {
+            margin-bottom: 10px;
+        }
+        .sub-nav a {
+            text-decoration: none;
+            color: #333;
+            display: block;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            font-weight: bolder;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+        .sub-nav a i {
+            margin-right: 10px;
+        }
+        .sub-nav a:hover {
+            background-color: #f0f0f0;
+            transform: scale(1.05);
+            color: #03465a;
+        }
+
+
+
+        /* Modal styles */
+        .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    width: 70%;
+    max-width: 500px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#confirmDelete,
+#cancelDelete {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#confirmDelete:hover,
+#cancelDelete:hover {
+    background-color: #0056b3;
+}
+
+    </style>
+</head>
+<body>
+
+<!-- <div class="extra-card">
+    {% if user.is_authenticated %}
+        <b><i class="fa-solid fa-person"></i>{{user.user.name}}</b>
+    {% endif %}
+</div> -->
+
+<div class="card">
+    <nav class="vertical-nav">
+        <ul>
+            <li><a href="{% url 'home' %}"><i class="fas fa-home"></i>Home</a></li>
+            <li><a href="#"><i class="fas fa-gamepad"></i>Explore</a></li>
+            <li><a href="#"><i class="fa-solid fa-book"></i>Bookmark</a></li>
+            <li><a href="{% url 'short-video' %}"><i class="fa-solid fa-video"></i>Shorts</a></li>
+
+            {% if user.is_authenticated %}
+
+            <li><a href="{% url 'inbox' user.id %}"><i class="fa-brands fa-rocketchat"></i></i>Messages</a></li>
+
+            {% endif %}
+
+            <li><a href="{% url 'travell-buddy-page' %}" ><i class="fa-solid fa-info"></i>About</a></li>
+            <li><a href="#" ><i class="fa-solid fa-rectangle-ad"></i>Advertisement</a></li>
+            <li><a href="#" id="settings-btn"><i class="fas fa-cog"></i>Setting</a></li>
+            {% if user.is_authenticated %}
+                
+                <li><a href="{% url 'logout' %}"><i class="fa-solid fa-right-from-bracket"></i>Logout</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+
+    {% if user.is_authenticated %}
+        <div class="post">
+            <a href="{% url 'create_blog' user.id %}">Create A Post</a>
+        </div>
+    {% endif %}
+</div>
+
+<!-- Add this HTML code after the existing HTML -->
+{% if user.is_authenticated %}
+<div class="sub-nav" id="subNav">
+    <ul>
+        <li><a href="#">Option 1</a></li>
+        <li><a href="{% url 'advertisement' user.id %}">{{user.id}}Advertise</a></li>
+        <li><a href="#" id="deleteAccount"><i class="fa-solid fa-trash"></i>Delete Account</a></li>
+    </ul>
+</div>
+
+<!-- Confirmation modal -->
+<div id="confirmationModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>Are you sure you want to delete your account?</p>
+        <p>
+            <b>Once you delete, the account cannot be restored.</b>
+        </p>
+        
+        <button id="confirmDelete"><a href="{% url 'delete-account' user.id %}" style="text-decoration: none; background-color: transparent; color: #fff;">Yes</a></button>
+        <button id="cancelDelete"><a href="{% url 'home' %}" style="text-decoration: none; background-color: transparent; color: #fff;">No</a></button>
+    </div>
+</div>
+{% endif %}
+
+
+<script>
+    const settingsBtn = document.getElementById('settings-btn');
+    const subNav = document.getElementById('subNav');
+
+    settingsBtn.addEventListener('click', function () {
+        subNav.classList.toggle('show');
+    });
+
+    // Show the modal when the delete account link is clicked
+    document.getElementById('deleteAccount').addEventListener('click', function () {
+        document.getElementById('confirmationModal').style.display = 'block';
+    });
+
+    // Close the modal when the close button is clicked
+    document.getElementsByClassName('close')[0].addEventListener('click', function () {
+        document.getElementById('confirmationModal').style.display = 'none';
+    });
+</script>
+
+</body>
+</html>

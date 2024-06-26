@@ -1,0 +1,115 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <style>
+      .footer{
+    background: #04566E;
+    color: #8a8a8a;
+    font-size: 14px;
+    padding: 60px 0 20px;
+    position: relative;
+    margin-top: 200px;
+    
+}
+.footer p{
+    color: #8a8a8a;
+}
+.footer h3{
+    color: #fff;
+    margin-bottom: 20px;
+}
+.footer-col-1, .footer-col-2, .footer-col-3, .footer-col-4{
+    min-width: 250px;
+    margin-bottom: 20px;
+}
+.footer-col-1{
+    flex-basis: 30%;
+}
+.footer-col-2{
+    flex: 1;
+    text-align: center;
+}
+.footer-col-2 img{
+    width: 180px;
+    margin-bottom: 20px;
+}
+.footer-col-3, .footer-col-4{
+    flex-basis: 12%;
+    text-align: center;
+}
+ul{
+    list-style-type: none;
+}
+.app-logo{
+    margin-top: 20px;
+}
+.app-logo img{
+    width: 140px;
+}
+.footer hr{
+    border: none;
+    background: #b5b5b5;
+    height: 1px;
+    margin: 20px 0;
+}
+.copyright{
+    text-align: center;
+}
+.menu-icon{
+    width: 28px;
+    margin-left: 20px;
+    display: none;
+}    
+    </style>
+</head>
+<body>
+
+
+<!-- Footer -->
+<div class="footer" style="position: relative;">
+   <div class="container">
+       <div class="row">
+           <div class="footer-col-1">
+               <h3>Download Our App</h3>
+               <p>Download App for Android and ios mobile phone.</p>
+               <div class="app-logo">
+                   <img src="{% static 'images/login-symbols/play-store.png' %}">
+                   <img src="{% static 'images/login-symbols/app-store.png' %}">
+               </div>
+           </div>
+           <div class="footer-col-2">
+               <a href="{% url 'travell-buddy-page' %}"><img src="{% static 'images/logo/travell buddy-logos_white.png' %}"></a>
+               <p>Our Purpose Is To Sustainably Make the Pleasure and Benefits for the solo travellers.
+               </p>
+           </div>
+           <div class="footer-col-3">
+               <h3>Useful Links</h3>
+               <ul>
+                   <li>Coupons</li>
+                   <li>Blog Post</li>
+                   <li>Return Policy</li>
+                   <li>Join Affiliate</li>
+               </ul>
+           </div>
+           <div class="footer-col-4">
+               <h3>Follow Us</h3>
+               <ul>
+                <a href="https://twitter.com/koshy_ben19956"><i class="fa-brands fa-square-x-twitter" style="font-size: 30px; color: #fff;"></i></a>
+                <a href="https://www.facebook.com/ben.jacob.986227"><i class="fa-brands fa-facebook" style="font-size: 30px; color: #fff;"></i></a>
+                <a href="https://www.instagram.com/ben_jacob_koshy/"><i class="fa-brands fa-square-instagram" style="font-size: 30px; color: #fff;"></i></a>
+                <a href="https://www.google.com/url?sa=i&url=https%3A%2F%2Fin.linkedin.com%2Fin%2Fben-jacob-koshy-b1a87b227&psig=AOvVaw2zv4bxBITSkN-UTHOUhZ1c&ust=1713101057940000&source=images&cd=vfe&opi=89978449&ved=0CAcQrpoMahcKEwjAnKX3pL-FAxUAAAAAHQAAAAAQBA" style="font-size: 30px; color: #fff;"><i class="fa-brands fa-linkedin"></i></a>
+             
+               </ul>
+           </div>
+       </div>
+       <hr>
+       <p class="copyright">Copyright 2024 -  BEN KURI HARI    <strong style="color: #fff; font-size: 20px;">BEKUHA</strong></p>
+   </div>
+</div>
+</body>
+</html>

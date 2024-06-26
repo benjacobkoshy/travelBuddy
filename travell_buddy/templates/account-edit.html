@@ -1,0 +1,490 @@
+{% load static %}
+{% include 'loading.html' %}
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+
+
+    <link rel="stylesheet" href="{% static 'css/account-edit/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/account-edit/fontawesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/account-edit/jquery-ui.css' %}">
+    <link rel="stylesheet" href="{% static 'css/account-edit/plugin/apexcharts.css' %}">
+    <link rel="stylesheet" href="{% static 'css/account-edit/plugin/nice-select.css' %}">
+    <link rel="stylesheet" href="{% static 'css/account-edit/arafat-font.css' %}">
+    <link rel="stylesheet" href="{% static 'css/account-edit/plugin/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'css/account-edit/style.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+   
+     <style>
+      .container {
+            display: flex;
+            justify-content: space-between;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-container {
+            width: 70%;
+        }
+        .skill-list {
+            width: 25%;
+            margin-right: 20px;
+            background: #fff;
+            padding: 10px;
+            border-radius: 4px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .skill-list h3 {
+            margin-top: 0;
+        }
+        .skill-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px;
+            border-bottom: 1px solid #eee;
+        }
+        .skill-item:last-child {
+            border-bottom: none;
+        }
+        .skill-item button {
+            background-color: transparent;
+            border: none;
+            color: #ff4d4d;
+            cursor: pointer;
+        }
+        .skill-item button:hover {
+            color: #e60000;
+        }
+        .skill-input {
+            display: flex;
+            margin-bottom: 10px;
+        }
+        .skill-input input {
+            flex: 1;
+            padding: 8px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .skill-input button {
+            padding: 8px 12px;
+            border: none;
+            background-color: #ff4d4d;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .skill-input button:hover {
+            background-color: #e60000;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+
+
+
+        .form-container {
+            width: 70%;
+        }
+        .destination-list {
+            width: 25%;
+            margin-right: 20px;
+            background: #fff;
+            padding: 10px;
+            border-radius: 4px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .destination-list h3 {
+            margin-top: 0;
+        }
+        .destination-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px;
+            border-bottom: 1px solid #eee;
+        }
+        .destination-item:last-child {
+            border-bottom: none;
+        }
+        .destination-item button {
+            background-color: transparent;
+            border: none;
+            color: #ff4d4d;
+            cursor: pointer;
+        }
+        .destination-item button:hover {
+            color: #e60000;
+        }
+        .destination-input {
+            display: flex;
+            margin-bottom: 10px;
+        }
+        .destination-input input {
+            flex: 1;
+            padding: 8px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .destination-input button {
+            padding: 8px 12px;
+            border: none;
+            background-color: #ff4d4d;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .destination-input button:hover {
+            background-color: #e60000;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+
+
+
+     </style>
+     
+
+</head>
+
+<body>
+    {% include 'top-nav.html' %}
+    {% include 'left-nav.html' %}
+
+    <section class="dashboard-section body-collapse account">
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="overlay pt-120">
+
+                <div class="row">
+                    <div class="col-xxl-3 col-xl-4 col-md-6">
+
+                    </div>
+                    <div class="col-xxl-9 col-xl-8">
+                        <div class="tab-main">
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="account-tab" style="background-color: #04566E;">Account</button>
+                                </li>
+                                
+                            </ul>
+
+                            <div class="tab-content mt-40">
+                                <div class="tab-pane fade show active" id="account" role="tabpanel" aria-labelledby="account-tab">
+                                    <!-- Account Settings Content -->
+                                    <div class="upload-avatar">
+                                        <div class="avatar-left d-flex align-items-center">
+                                            <div class="profile-img">
+                                                <img src="{{ user.image.url }}"  alt="image" style="width: 100px; height: 100px; border-radius: 50%;">
+                                                
+                                            </div>
+                                            <input type="file" id="imageInput" name="image" style="margin-left: 80px;">
+                                        </div>
+                                        
+                                        <!-- <div class="avatar-right">
+                                            <div class="file-upload">
+                                                <div class="right-area">
+                                                   
+                                                       
+                                                   
+                                                  
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                    </div>
+
+                                    <div class="row justify-content-center">
+                                        <div class="col-md-12">
+                                            <div class="single-input">
+                                                <label for="fName">Name</label>
+                                                <input type="text" id="fName" name="name" placeholder="{{ user.name }}" value="{{ user.name }}">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="single-input">
+                                                <label for="fName">User name</label>
+                                                <input type="text" id="fName" name="username" placeholder="{{ user.user }}" value="{{ user.user }}">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="single-input">
+                                                <label for="email">Email</label>
+                                                <div class="row input-status d-flex align-items-center">
+                                                    <div class="col-6">
+                                                        <input type="text" id="email" placeholder="{{ user.user.email }}" value="{{ user.user.email }}" disabled style="background-color:  rgb(223, 214, 214);">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="single-input">
+                                                <label for="email">Dob</label>
+                                                <div class="row input-status d-flex align-items-center">
+                                                    <div class="col-6">
+                                                        <input  type="text" name="dob" id="dob" placeholder="{{ user.dob }}" value="{{ user.dob }}" disabled style="background-color: rgb(223, 214, 214);">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="single-input">
+                                                <label for="address">Address</label>
+                                                <input type="text" id="address" name="address" placeholder="{{ user.address }}" value="{{ user.address }}">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="single-input">
+                                                <label for="phone">Place</label>
+                                                <div class="row input-status d-flex align-items-center">
+                                                    <div class="col-6">
+                                                        <input type="text" id="phone" name="location" placeholder="{{ user.place }}" value="{{ user.place }}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="single-input">
+                                                <label for="phone">Pin</label>
+                                                <div class="row input-status d-flex align-items-center">
+                                                    <div class="col-6">
+                                                        <input type="text" id="phone" name="pin" placeholder="{{ user.pin }}" value="{{ user.pin }}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="btn-border">
+                                                <button class="cmn-btn" name="save" style="background-color: #04566E;">Save</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr><hr>
+
+
+
+
+
+                                    <!-- DDESTINATION SECTION -->
+
+
+
+
+                                    <div class="container">
+                                        <div class="destination-list">
+                                            <h3>Dream Destinations</h3>
+                                            <div id="destinationsDisplay"></div>
+                                        </div>
+                                        <div class="form-container">
+                                            <h2>Add Dream Destinations</h2>
+                                            <form id="destinationForm" method="POST">
+                                                {% csrf_token %}
+                                                <div id="destinationInputs"></div>
+                                                <button type="button" id="addDestinationButton">Add Destination</button>
+                                                <button type="submit" name="destination">Submit</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                
+                                    <script>
+                                        document.getElementById('addDestinationButton').addEventListener('click', function() {
+                                            const destinationInputs = document.getElementById('destinationInputs');
+                                            const newInput = document.createElement('div');
+                                            newInput.className = 'destination-input';
+                                            newInput.innerHTML = `
+                                                <input type="text" name="destinations[]" placeholder="Enter a destination" required>
+                                                <button type="button" onclick="removeDestinationInput(this)">Remove</button>
+                                            `;
+                                            destinationInputs.appendChild(newInput);
+                                        });
+                                
+                                        function removeDestinationInput(button) {
+                                            button.parentElement.remove();
+                                        }
+                                
+                                        document.getElementById('destinationForm').addEventListener('submit', function(event) {
+                                            event.preventDefault();  // Prevent the form from submitting normally
+                                            
+                                            const destinationInputs = document.getElementsByName('destinations[]');
+                                            const destinationsDisplay = document.getElementById('destinationsDisplay');
+                                
+                                            destinationsDisplay.innerHTML = '';  // Clear the current display
+                                
+                                            destinationInputs.forEach(input => {
+                                                if (input.value.trim() !== '') {
+                                                    const destinationItem = document.createElement('div');
+                                                    destinationItem.className = 'destination-item';
+                                                    destinationItem.innerHTML = `
+                                                        <span>${input.value}</span>
+                                                        <button type="button" onclick="removeDestinationItem(this)">×</button>
+                                                    `;
+                                                    destinationsDisplay.appendChild(destinationItem);
+                                                }
+                                            });
+                                
+                                            // Optionally, submit the form data using AJAX or similar methods here
+                                        });
+                                
+                                        function removeDestinationItem(button) {
+                                            button.parentElement.remove();
+                                        }
+                                    </script>
+    
+
+
+
+
+                                    
+    
+
+
+
+
+                              <hr><hr>
+
+
+
+                                <!-- SKILLS SECTION -->
+
+                              
+                               
+                                
+                               
+                                <div class="container">
+                                    <div class="skill-list">
+                                        <h3>Skills</h3>
+                                        <div id="skillsDisplay">
+
+                                         
+
+                                        </div>
+                                    </div>
+                                    <div class="form-container">
+                                        <h2>Add Skills</h2>
+                                        <form id="skillForm" method="POST">
+                                            {% csrf_token %}
+                                            <div id="skillInputs"></div>
+                                            <button type="button" id="addSkillButton">Add Skill</button>
+                                            <button type="submit" name="skill">Submit</button>
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <script>
+                                    document.getElementById('addSkillButton').addEventListener('click', function() {
+                                        const skillInputs = document.getElementById('skillInputs');
+                                        const newInput = document.createElement('div');
+                                        newInput.className = 'skill-input';
+                                        newInput.innerHTML = `
+                                            <input type="text" name="skills[]" placeholder="Enter a skill" required>
+                                            <button type="button" onclick="removeSkillInput(this)">Remove</button>
+                                        `;
+                                        skillInputs.appendChild(newInput);
+                                    });
+
+                                    function removeSkillInput(button) {
+                                        button.parentElement.remove();
+                                    }
+
+                                    document.getElementById('skillForm').addEventListener('submit', function(event) {
+                                        event.preventDefault();  // Prevent the form from submitting normally
+                                        
+                                        const skillInputs = document.getElementsByName('skills[]');
+                                        const skillsDisplay = document.getElementById('skillsDisplay');
+
+                                        skillsDisplay.innerHTML = '';  // Clear the current display
+
+                                        skillInputs.forEach(input => {
+                                            if (input.value.trim() !== '') {
+                                                const skillItem = document.createElement('div');
+                                                skillItem.className = 'skill-item';
+                                                skillItem.innerHTML = `
+                                                    <span>${input.value}</span>
+                                                    <button type="button" onclick="removeSkillItem(this)"></button>
+                                                `;
+                                                skillsDisplay.appendChild(skillItem);
+                                            }
+                                        });
+
+                                        // Optionally, submit the form data using AJAX or similar methods here
+                                    });
+
+                                    function removeSkillItem(button) {
+                                        button.parentElement.remove();
+                                    }
+                                </script>
+
+
+
+
+                              
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
+
+<!-- JavaScript code to handle sliding effect -->
+<script>
+    function showAccount() {
+        document.getElementById("account-content").classList.add("show", "active");
+        document.getElementById("security-content").classList.remove("show", "active");
+    }
+
+    function showSecurity() {
+        document.getElementById("security-content").classList.add("show", "active");
+        document.getElementById("account-content").classList.remove("show", "active");
+    }
+</script>
+
+

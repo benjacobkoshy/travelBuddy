@@ -1,0 +1,119 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>    
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+ 
+    <style>
+
+        .card-wrapper{
+            width: 1000px;
+            height: 300px;
+            margin-left: 500px;
+            padding-top: 200px;
+        }
+        
+        .custom-card {
+            margin-top: 100px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 200px;
+        }
+        
+        .custom-img {
+            width: 100%;
+            height: 250px;
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+        }
+        
+        .custom-card-body {
+            padding: 20px;
+        }
+        
+        .custom-card-title {
+            font-size: 1.25rem;
+            margin-bottom: 10px;
+        }
+        
+        .custom-card-text {
+            margin-bottom: 10px;
+        }
+        
+        .custom-card-date {
+            color: #6c757d;
+        }
+        
+        .custom-card:hover {
+            transform: scale(1.05);
+            transition: transform 0.3s ease;
+        }
+        .no-blogs-found {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Set height to full viewport height */
+            font-size: larger;
+        }
+
+        .no-blogs-found p {
+            font-size: larger;
+            text-align: center;
+            font-size: 20px;
+            color: #555; /* Adjust color as needed */
+        }
+
+    </style>
+</head>
+<body>
+    {%include 'top.html'  %}
+    {% include 'left-nav.html' %}
+   
+    {% if queries %}
+    <h2>Search Results for:</h2>
+    <ul>
+        {% for key, value in queries.items %}
+            <li><strong>{{ key }}:</strong> {{ value }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+{% if blogs %}
+    <div class="search-results">
+        {% for blog in blogs %}
+        <div class="card-wrapper">
+            <a class="card-link" href="{% url 'blogDetails' user_id=blog.id  %}">
+                <div class="custom-card">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="{{ blog.image.url }}" class="custom-img" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="custom-card-body">
+                                <h5 class="custom-card-title">{{ blog.header }}</h5>
+                                <p class="custom-card-text">{{ blog.content|slice:":300" }}....</p>
+                                <p><p href="{% url 'user-account' blog.id %}" class=""><i class="fa-solid fa-person"></i> &nbsp;&nbsp;{{ blog.owner.name }}</p></p>
+                                <p class="custom-card-date"><small>{{ blog.date }}</small></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    
+        {% endfor %}
+    </div>
+{% else %}
+    <p class="no-blogs-found">No blogs found.&nbsp;&nbsp;<i class="fa-regular fa-face-sad-cry"></i></p>
+{% endif %}
+
+
+
+</body>
+</html>

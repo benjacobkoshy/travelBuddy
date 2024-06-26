@@ -1,0 +1,101 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Verification</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            font-family: Arial, sans-serif;
+        }
+        .otp-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .otp-container h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .otp-input {
+            display: flex;
+            justify-content: space-between;
+        }
+        .otp-input input {
+            width: 40px;
+            height: 40px;
+            margin: 5px;
+            text-align: center;
+            font-size: 20px;
+            border: 2px solid #ced4da;
+            border-radius: 5px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .otp-input input:focus {
+            border-color: #007bff;
+        }
+        .submit-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .submit-button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    {% for message in  messages %}
+            <li style="list-style: none;" class="{{ message.tags }}">{{ message }} </li>
+    {% endfor %}
+    <div class="otp-container">
+        <h2>Enter 6-digit OTP</h2>
+        <form id="otp-form" action="{% url 'otp_verification' %}" method="post">
+            {% csrf_token %}
+            <div class="otp-input">
+                <input type="text" maxlength="1" name="otp1" required>
+                <input type="text" maxlength="1" name="otp2" required>
+                <input type="text" maxlength="1" name="otp3" required>
+                <input type="text" maxlength="1" name="otp4" required>
+                <input type="text" maxlength="1" name="otp5" required>
+                <input type="text" maxlength="1" name="otp6" required>
+            </div>
+            <button type="submit" class="submit-button">Verify OTP</button>
+        </form>
+    </div>
+    <script>
+        // Automatically focus on the next input box
+        const inputs = document.querySelectorAll('.otp-input input');
+        inputs.forEach((input, index) => {
+            input.addEventListener('keyup', (e) => {
+                if (e.key >= 0 && e.key <= 9) {
+                    if (index < inputs.length - 1) {
+                        inputs[index + 1].focus();
+                    }
+                } else if (e.key === 'Backspace') {
+                    if (index > 0) {
+                        inputs[index - 1].focus();
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

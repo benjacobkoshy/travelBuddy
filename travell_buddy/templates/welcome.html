@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+         {% load static %}
+         <link rel="stylesheet" href="{% static 'css\style.css' %}"> 
+         <!-- <script src="script.js"></script> -->
+    </head>
+    <body id="_welcome_">
+        <div id="main1">
+         <div class="logo">
+            <!-- <div id="logo-container"> -->
+                <h2 class="section1">traveL<span class="sym"><img src="{% static 'images/logo/flight.png' %}" style="width: 90px; height: auto;"></span></h2>
+                <h2 class="section2">buddY</h2>
+                <small style="color: #fff; font-size: 10px;">powered by</small> <strong style="color: #fff; font-size: 20px;">BEKUHA</strong>
+            <!-- </div> -->
+         </div>
+        </div>
+
+        <script>
+             document.addEventListener("DOMContentLoaded",function(){
+                            setTimeout(function() {
+                                     window.location.href = "{% url 'home' %}";   
+                             },5500);
+                       }
+             );
+        </script>
+    </body>
+</html>

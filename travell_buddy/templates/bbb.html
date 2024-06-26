@@ -1,0 +1,128 @@
+{% load static %}
+<!-- {% include 'loading.html' %} -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <style>
+  
+     .main{
+      display: flex;
+      box-shadow: 1px 1px 4px #03465a;;
+     }
+
+    .blog-left{
+           margin-top: 150px;
+           margin-left: 300px;
+           width: 60%;
+  }
+  .owner-right{
+    margin-top: 150px;
+    margin-left: 100px;
+    width: 50%;
+  }
+
+
+
+  .chat-button-wrapper {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 999;
+}
+
+.chat-button {
+    display: inline-block;
+    padding: 10px 15px;
+    border-radius: 25px;
+    background-color: #04566E;; /* Instagram's chat button color */
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Box shadow for depth */
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.chat-button:hover {
+    background-color: #0099cc; /* Darker color on hover */
+    transform: scale(1.05); /* Scale effect on hover */
+}
+
+.chat-button i {
+    margin-right: 5px; /* Space between icon and text */
+}
+
+    </style>
+
+</head>
+<body>
+
+  {% include 'top.html' %}
+  {% block header %}
+      
+      {% include 'top-options.html' %}
+   {% endblock header %}
+   
+
+
+
+
+    
+    <div  class="main" >
+      {% if user.is_authenticated %}
+      {% if blog.owner.user.id != user.id %}
+          <div class="chat-button-wrapper">
+              <a href="{% url 'send_message' receiver_id=blog.owner.id %}" class="chat-button">
+                  <i class="fa-brands fa-rocketchat"></i>
+                  Message {{ blog.owner.user.username }}
+              </a>
+          </div>
+      {% endif %}
+  {% endif %}
+  
+     <div class="blog-left">
+        
+        <div class="card mb-3">
+            <img src="{{ blog.image.url }}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">{{ blog.heading }}</h5>
+              <p class="card-text">{{ blog.content }}</p>
+              <p class="card-text"><small class="text-muted">{{ blog.created_at }}</small></p>
+            </div>
+        </div>
+
+     </div>
+
+
+     <div class="owner-right">
+
+        <div class="card" style="width: 18rem;">
+            <img src="{{ blog.owner.image.url }}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title"> Hi iam <b>{{ blog.owner.name }}</b></h5>
+              <br>
+              <p class="card-text">{{ blog.yourself }}</p>
+              <a href="{% url 'user-account' blog.id%}" class="btn btn-primary">Go to profile</a>
+            </div>
+          </div>
+
+     </div>
+</div>
+
+
+
+{% include 'footer.html' %}
+
+
+
+</body>
+</html>
+

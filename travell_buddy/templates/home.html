@@ -1,0 +1,337 @@
+{% load static %}
+{% include 'loading.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <link rel="stylesheet" href="{% static 'css/home.css' %}"> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>    
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    <style>
+
+.card-wrapper {
+    
+    width: 800px;
+    margin-left: 500px;
+    padding: 10px;
+}
+
+.custom-card {
+    margin-top: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 280px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.custom-img {
+    margin-top: 15px;
+    margin-left: 5px;
+    width: 100%;
+    height: 250px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.custom-card-body {
+    padding: 20px;
+}
+
+.custom-card-title {
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+}
+
+.custom-card-text {
+    margin-bottom: 10px;
+}
+
+.custom-card-date {
+    color: #6c757d;
+}
+
+.custom-card:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+}
+
+
+.response {
+    display: flex;
+    justify-content: space-between;
+}
+
+.icon-list {
+    list-style-type: none;
+    display: flex;
+    gap: 200px;
+    margin-bottom: 10px;
+}
+
+.icon-list li:hover{
+    transform: scale(1.05);
+    font-size: large;
+}
+
+.share-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #ffff;
+    border: 1px solid #ccc;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: none;
+    z-index: 1000;
+    border-radius: 10px;
+    height: 20vh;
+    width:50vh
+}
+
+.popup-content {
+
+    margin-top: 10px;
+    text-align: center;
+}
+
+.popup-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+.popup-close:hover{
+    width: 30px;
+    height: 30px;
+    background-color: #04566E;
+    color: #ffffff;
+}
+
+#copyButton{
+    margin-top: 10px;
+    background-color: #04566E;
+    color: white;
+    padding: 3px;
+    border-radius: 3px;
+}
+
+#copyButton:hover{
+    background-color: #0056b3;
+    font-weight: bold;
+}
+
+
+.shorts{
+    margin-top: 200px;
+    margin-left: 20%;
+}
+.scrollable-section {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch; /* For smooth scrolling on iOS */
+    }
+    
+    .scrollable-section > div {
+        flex: 0 0 auto;
+        width: 100%;
+        scroll-snap-align: start;
+    }
+
+
+
+    </style>
+</head>
+<body>
+    
+    {% include 'top.html' %}
+    {% include 'left-nav.html' %}
+
+
+
+
+
+   
+
+
+
+
+
+
+    {% for blog, likes in blogs_with_likes %}
+    <div class="card-wrapper">
+        <a class="card-link" href="{% url 'blogDetails' user_id=blog.id %}" style="text-decoration: none;">
+            <div class="custom-card">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="{{ blog.image.url }}" class="custom-img" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="custom-card-body">
+                            <h5 class="custom-card-title">{{ blog.header }}</h5>
+                            <p class="custom-card-text">{{ blog.content|slice:":300" }}....</p>
+                            <p href="{% url 'user-account' blog.id %}" class=""><i class="fa-solid fa-person"></i> &nbsp;&nbsp;{{ blog.owner.name }}</p>
+                            <p class="custom-card-date"><small>{{ blog.date }}</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+        <hr>
+        <form action="{% url 'like_post' blog.id %}" method="post">
+            {% csrf_token %}
+            <nav class="response">
+                <ul class="icon-list">
+
+                    <!-- Like -->
+                    <li>
+                        <button type="submit" name="like_id" value="{{ blog.id }}" style="border: none; background-color: transparent;">
+                            {% if blog.is_liked_by_user %}
+                              <i class="fa-solid fa-heart"></i>
+                            {% else %}
+                              <i class="fa-regular fa-heart"></i>
+                            {% endif %}
+                            <!-- <i class="{% if blog.is_liked_by_user %}fa-solid{% else %}fa-regular{% endif %} fa-heart"></i> -->
+                        </button>
+                        <span>{{ likes }}</span>
+                    </li>
+                    
+                    <!-- Comment -->
+                    <li>
+                        <a style="text-decoration: none; background-color: transparent; color: black;" href="{% url 'comment' blog.id %}">
+                            <i class="fa-regular fa-comment"></i>
+                        </a>
+                    </li>
+                    
+                    <!-- bookmark -->
+                    <li>
+                        <button class="bookmarkButton" style="border: none; background-color: transparent;" value="blog.id">
+                            <i class="fa-regular fa-bookmark"></i>
+                        </button>
+                    </li>
+                    
+ 
+                    <!-- Share button -->
+                    <li><button class="shareButton" style="background-color: transparent; border: none;" data-blog-id="{{ blog.id }}"><i class="fa-regular fa-share-from-square"></i></button></li>
+
+
+                    <div id="sharePopup" class="share-popup">
+                        <div class="popup-content">
+                            <h4>Share this blog:</h4>
+                            <span class="popup-close" id="popupClose">&times;</span>
+                            <!-- <span class="share-text">Share this blog:</span> -->
+                            <input type="text" id="blogLink" readonly>
+                            <button id="copyButton">Copy link</button>
+                        </div>
+                    </div>
+
+               
+                    
+
+                </ul>
+            </nav>
+        </form>
+        <hr>
+    </div>
+{% endfor %}
+
+{% include 'footer.html' %}
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function() {
+    var shareButtons = document.querySelectorAll(".shareButton");
+    var sharePopup = document.getElementById("sharePopup");
+    var blogLinkInput = document.getElementById("blogLink");
+    var copyButton = document.getElementById("copyButton");
+    var popupClose = document.getElementById("popupClose");
+
+    shareButtons.forEach(function(shareButton) {
+        shareButton.addEventListener("click", function(event) {
+            event.preventDefault(); // Prevent default form submission action
+
+            var blogId = shareButton.getAttribute("data-blog-id");
+            var blogUrl = `${window.location.protocol}//${window.location.host}/blog-details/${blogId}/`;
+
+            blogLinkInput.value = blogUrl;
+            sharePopup.style.display = "block";
+        });
+    });
+
+    copyButton.addEventListener("click", function() {
+        blogLinkInput.select();
+        document.execCommand("copy");
+        sharePopup.style.display = "none";
+    });
+
+    popupClose.addEventListener("click", function() {
+        sharePopup.style.display = "none";
+    });
+});
+
+
+
+
+
+
+// Get the modal
+var modal = document.getElementById('confirmationModal');
+
+// Get the button that opens the modal
+var deleteAccountLink = document.getElementById("deleteAccount");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal
+deleteAccountLink.onclick = function() {
+    modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
+// When the user clicks on "Yes" in the modal, perform the deletion action
+document.getElementById("confirmDelete").onclick = function() {
+    // Perform the deletion action (e.g., call an API endpoint to delete the account)
+    // Replace the following line with your deletion logic
+    alert('Account deleted successfully!');
+
+    // Close the modal
+    modal.style.display = "none";
+}
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

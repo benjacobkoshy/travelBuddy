@@ -1,0 +1,378 @@
+{% include 'loading.html' %}
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <style>
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+#_background_ {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    display: flex;
+    justify-content: center;
+    background-size: cover;
+    position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    align-items: center;
+    height: 100vh;
+    width: auto;
+    margin: 0;
+}
+
+#_background_::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0.2;
+    background-color: rgba(255, 255, 255, 0.2); /* Adjust the alpha value as needed */
+    animation: fadeInOut 5s linear infinite;
+}
+
+@keyframes fadeInOut {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.4;
+    }
+}
+
+
+
+
+
+.account-page {
+    height: auto;
+    padding: 50px 0;
+    /* background: radial-gradient(#fff, #ffd6d6); */
+}
+
+.message-container{
+    background: #fff;
+    width: 400px;
+    height: fit-content;
+    position: relative;
+    text-align: center;
+    padding: 20px 0;
+    margin: auto;
+    box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    border-radius: 8px;
+    opacity: .9;
+}
+
+.form-container {
+    background: #fff;
+    width: 400px;
+    height: 510px; /* Adjust the height as needed */
+    position: relative;
+    text-align: center;
+    padding: 20px 0;
+    margin: auto;
+    box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    border-radius: 8px;
+    opacity: .9;
+}
+
+#Indicator {
+    width: 100px;
+    border: none;
+    background: #04566E;
+    height: 3px;
+    margin-top: 8px;
+    transform: translateX(100px);
+    transition: transform 1s;
+}
+
+form .btn {
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    margin: 10px 0;
+}
+
+form .btn:focus {
+    outline: none;
+}
+
+
+
+.btn {
+    display: inline-block;
+    background: #04566E;
+    color: white;
+    padding: 8px 30px;
+    margin: 30px 0;
+    border-radius: 30px;
+    transition: background 0.5s;
+}
+
+.btn:hover {
+    background: #0685ac;
+}
+
+
+#LoginForm {
+    text-align: center;
+    left: -400px;
+}
+
+#RegForm {
+    text-align: center;
+    left: 0px;
+}
+
+.form-container span {
+    font-weight: bold;
+    padding: 0 10px;
+    color: #555;
+    cursor: pointer;
+    width: 100px;
+    display: inline-block;
+}
+
+.form-btn {
+    display: inline-block;
+    color: #04566E;
+}
+
+.form-container form {
+    text-align: center;
+    max-width: 400px;
+    padding: 0 20px;
+    position: absolute;
+    top: 130px;
+    transition: transform 1s;
+}
+
+
+
+form input{
+        width: 100%; 
+        height: 30px;
+        margin: 10px 0;
+        padding: 0 10px;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        outline: none;
+        transition: border-color 0.3s;
+        font-weight: 10px;
+}
+
+form input:focus {
+        border-color: #4CAF50;
+}
+  
+form input:hover{
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        caret-color: #00ff00;
+} 
+
+
+form a {
+        text-decoration: none;
+        font-size: 12px;
+        padding-top: 10px;
+        display: block;
+        color:  #04566E;
+}
+
+form a:hover{
+        color: rgb(34, 34, 182);
+        font-size: 14px;
+}
+
+
+
+
+.icon{
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+   }
+   .icon a{
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    display: inline-block;
+    padding: 0px 4%;
+}
+
+
+.icon img {
+    width: 30px; /* Adjust the width as needed */
+    height: 30px; /* Adjust the height as needed */
+    border-radius: 50%; /* Make the icons circular */
+}
+
+
+.icon img:hover{
+     width: 35px; 
+    height: auto;
+}
+
+
+    </style>
+</head>
+<body id="_background_">
+
+    <div>
+        <img src="{% static 'images/logo/travell buddy-logos_transparent.png' %}" style="width: 600px; height: auto; margin-left: 200px;">
+    </div>
+
+    
+    <div class="account-page" id="content">
+
+
+        {% if messages %}
+
+            <div class="message-container" style="background: #fff;
+            width: 400px;
+            height: fit-content;
+            position: relative;
+            text-align: center;
+            padding: 20px 0;
+            color: red;
+            margin: auto;
+            box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.1); 
+            overflow: hidden;
+            border-radius: 8px;
+            opacity: .9;">
+                {% for message in  messages %}
+                    <li style="list-style: none;" class="{{ message.tags }}">{{ message }} </li>
+                {% endfor %}
+            </div>
+
+        {% endif %}
+
+
+             <div class="form-container">
+                        <div class="form-btn">
+                            <span onclick="login()">Login</span>
+                            <span onclick="register()">Register</span>
+                            <hr id="Indicator">
+                        </div>
+
+                        <!-- Login -->
+
+                        <form id="LoginForm" method="POST" enctype="multipart/form-data">
+                           {% csrf_token %}
+                            <input type="text" placeholder="Username" name="username" required>
+                            <input type="password" placeholder="Password" name="password" required>
+                            <button type="submit" class="btn" name="login">Login</button>
+                            <a href="#" class="forgot-pass">Forget Password</a>
+                            <a href="#">Terms of use. Privacy policy</a>
+                            <a href="#">Help?</a>
+                            <div class="icon">
+                                <a href="#"><img src="{% static 'images/login-symbols/google-symbol.png' %}" alt="Google"></a>
+                                <a href="#"><img src="{% static 'images/login-symbols/facebook.png' %}" alt="Facebook"></a>
+                                <a href="#"><img src="{% static 'images/login-symbols/twitter.png' %}" alt="Twitter"></a>
+                            </div>
+
+                        <!-- Register -->
+
+                        </form>
+
+                        <form action="" id="RegForm" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <input type="text" placeholder="Name" name="name" required>
+                            <input type="text" placeholder="Username" name="username" required>
+                            <input type="email" placeholder="Email" name="email" required>
+                            <input type="password" placeholder="Password" name="password" required> 
+                            <button type="submit" class="btn" name="register">Register</button>
+                            <a href="#">Terms of use. Privacy policy</a>
+                            <a href="#">Help?</a>
+                            <div class="icon">
+                                <a href="#"><img src="{% static 'images/login-symbols/google-symbol.png' %}" alt="Google"></a>
+                                <a href="#"><img src="{% static 'images/login-symbols/facebook.png' %}" alt="Facebook"></a>
+                                <a href="#"><img src="{% static 'images/login-symbols/twitter.png' %}" alt="Twitter"></a>
+                            </div>
+                        </form>
+                    </div>
+    </div>
+
+
+
+
+
+    
+  
+<script>
+
+
+
+
+// changing background frequently
+
+        document.addEventListener("DOMContentLoaded",function(){
+
+        const backgroundImages = ["{% static 'images/background/travell1.jpg' %}", 
+                                  "{% static 'images/background/travell2.jpg' %}", 
+                                  "{% static 'images/background/travell3.jpg' %}", 
+                                  "{% static 'images/background/nature2.jpg' %}",
+                                  "{% static 'images/background/nature4.jpg' %}"];
+
+        var i = 0;
+
+        function changeBackground() {
+            const backgroundImage = backgroundImages[i];
+            document.getElementById('_background_').style.backgroundImage = `url(${backgroundImage})`;
+            
+
+            if (i == backgroundImages.length - 1) {
+                i = 0;
+            } else {
+                i++;
+            }
+
+            
+        setTimeout(changeBackground, 10000);
+        }
+
+
+        changeBackground();
+
+        });
+
+
+        // login and register
+
+        var LoginForm = document.getElementById("LoginForm");
+        var RegForm = document.getElementById("RegForm");
+        var Indicator = document.getElementById("Indicator");
+        function register() {
+            RegForm.style.transform = "translatex(0px)";
+            LoginForm.style.transform = "translatex(0px)";
+            Indicator.style.transform = "translateX(100px)";
+
+        }
+        function login() {
+            RegForm.style.transform = "translatex(400px)";
+            LoginForm.style.transform = "translatex(400px)";
+            Indicator.style.transform = "translate(0px)";
+
+        }
+
+</script> 
+
+</body>
+</html>

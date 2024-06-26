@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+     
+    <div class="card-wrapper">
+        <a class="card-link" href="{% url 'blogDetails' user_id=blog.id %}" style="text-decoration: none;">
+            <div class="custom-card">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="{{ blog.image.url }}" class="custom-img" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="custom-card-body">
+                            <h5 class="custom-card-title">{{ blog.header }}</h5>
+                            <p class="custom-card-text">{{ blog.content|slice:":300" }}....</p>
+                            <p href="{% url 'user-account' blog.id %}" class=""><i class="fa-solid fa-person"></i> &nbsp;&nbsp;{{ blog.owner.name }}</p>
+                            <p class="custom-card-date"><small>{{ blog.date }}</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+        <hr>
+        <form action="{% url 'like_post' blog.id %}" method="post">
+            {% csrf_token %}
+            <nav class="response">
+                <ul class="icon-list">
+
+                    <!-- Like -->
+                    <li>
+                        <button type="submit" name="like_id" value="{{ blog.id }}" style="border: none; background-color: transparent;">
+                            {% if blog.is_liked_by_user %}
+                              <i class="fa-solid fa-heart"></i>
+                            {% else %}
+                              <i class="fa-regular fa-heart"></i>
+                            {% endif %}
+                            <!-- <i class="{% if blog.is_liked_by_user %}fa-solid{% else %}fa-regular{% endif %} fa-heart"></i> -->
+                        </button>
+                        <span>{{ likes }}</span>
+                    </li>
+                    
+                    <!-- Comment -->
+                    <li>
+                        <a style="text-decoration: none; background-color: transparent; color: black;" href="{% url 'comment' blog.id %}">
+                            <i class="fa-regular fa-comment"></i>
+                        </a>
+                    </li>
+                    
+                    <!-- bookmark -->
+                    <li>
+                        <button class="bookmarkButton" style="border: none; background-color: transparent;" value="blog.id">
+                            <i class="fa-regular fa-bookmark"></i>
+                        </button>
+                    </li>
+                    
+ 
+                    <!-- Share button -->
+                    <li><button class="shareButton" style="background-color: transparent; border: none;" data-blog-id="{{ blog.id }}"><i class="fa-regular fa-share-from-square"></i></button></li>
+
+
+                    <div id="sharePopup" class="share-popup">
+                        <div class="popup-content">
+                            <h4>Share this blog:</h4>
+                            <span class="popup-close" id="popupClose">&times;</span>
+                            <input type="text" id="blogLink" readonly>
+                            <button id="copyButton">Copy link</button>
+                        </div>
+                    </div>
+
+               
+                    
+
+                </ul>
+            </nav>
+        </form>
+        <hr>
+    </div>
+
+</body>
+</html>
